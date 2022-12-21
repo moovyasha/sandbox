@@ -1,11 +1,11 @@
 <template>
-    <li> {{ test4.title }} </li>
+    <li>{{ eOA1.title }}</li>
 </template>
 
 <script>
 export default {
     props: {
-        test4: {
+        eOA1: {
             type: Object,
             required: true
         }

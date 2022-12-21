@@ -2,7 +2,7 @@
   <div id = "app">
     <h1>Todo APP</h1>
     <TodoList
-      v-bind:test1 = "test2"/>
+      v-bind:test1 = "test2"/> <!-- здесь test2 это массив снизу который, в test1 передаем массив и -->
   </div>
 </template>
 
