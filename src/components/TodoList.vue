@@ -2,9 +2,9 @@
     <div>
         <ul>
             <TodoItem
-                v-for="eOA of test1"
-                v-bind:test3="eOA"
-            />
+                v-for="Elem of test1" 
+                v-bind:test3 = "Elem"
+            /> <!-- Elem придуманная переменная, которая проходит массив test1 и ей присваивается значение из массива -->
         </ul>
     </div>
 </template>

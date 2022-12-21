@@ -2,7 +2,7 @@
   <div id = "app">
     <h1>Todo APP</h1>
     <TodoList
-      v-bind:test1 = "test2"/> <!-- здесь test2 это массив снизу который, в test1 передаем массив и -->
+      v-bind:test1 = "test2"/> <!-- здесь test1 это переменная, которой присваивается значение строки из массива test2 -->
   </div>
 </template>
 
@@ -24,6 +24,7 @@ export default {
     TodoList
   }
 }
+
 </script>
 
 <style>
