@@ -1,11 +1,12 @@
 <template>
     <li>
-        <span :class="{done: elOfList.completed}">
-            <input type="checkbox" v-on:change="elOfList.completed = !elOfList.completed">
+        <span v-bind:class="{done: elOfList.completed}">
+            <input type="checkbox" 
+            v-on:change = "elOfList.completed = !elOfList.completed">
             <strong>{{elOfList.id}}</strong>
             {{ elOfList.title }}
         </span>
-        <button class = "remove" v-on:click="$emit('remove-item', elOfList.id)">
+        <button class = "remove" @click="$emit('removeItem', elOfList.id)">
             &times;
         </button>
     </li>    
@@ -29,6 +30,7 @@ li {
     display: flex;
     justify-content: space-between;
     padding: 12px 43px;
+    margin-bottom: 5px;
     width: auto;
 }
 .done {

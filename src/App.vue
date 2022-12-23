@@ -2,7 +2,8 @@
   <div id = "app">
     <h1>Todo APP</h1>
     <TodoList
-      :arrayList = "taskList"/> <!-- здесь test1 это переменная, которой присваивается значение строки из массива test2 -->
+      :taskList = "taskList"
+      @removeItem = "removeTask"/> <!-- здесь test1 это переменная, которой присваивается значение строки из массива test2 -->
   </div>
 </template>
 
@@ -14,10 +15,15 @@ export default {
   data() {
     return {
       taskList: [
-        {id: 1, title: 'byu 123', completed: false},
-        {id: 2, title: 'byu 12', completed: false},
+        {id: 1, title: 'byu 122', completed: false},
+        {id: 2, title: 'byu 1122', completed: false},
         {id: 3, title: 'byu 123', completed: false}
       ]
+    }
+  },
+  methods: {
+    removeTask(id) {
+      this.taskList = this.taskList.filter(number => number.id !== id)
     }
   },
   components: {
