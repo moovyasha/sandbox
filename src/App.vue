@@ -2,8 +2,8 @@
   <div id = "app">
     <h1>Todo APP</h1>
     <TodoList
-      :taskList = "taskList"
-      @removeItem = "removeTask"/> <!-- здесь test1 это переменная, которой присваивается значение строки из массива test2 -->
+      v-bind:taskList1 = "taskList2"
+      @removeItem1 = "removeTask"/> <!-- v-bind:taskList1 используется для привязки 1 или более атрибутов, значений к элементу taskList1 равное значению из массива taskList2 + динамически можно смотреть эти изменения пример https://progler.ru/blog/direktiva-v-bind-v-vue-js -->
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   name: 'App',
   data() {
     return {
-      taskList: [
+      taskList2: [
         {id: 1, title: 'byu 122', completed: false},
         {id: 2, title: 'byu 1122', completed: false},
         {id: 3, title: 'byu 123', completed: false}
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     removeTask(id) {
-      this.taskList = this.taskList.filter(number => number.id !== id)
+      this.taskList2 = this.taskList2.filter(number => number.id !== id)
     }
   },
   components: {

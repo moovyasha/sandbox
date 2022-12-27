@@ -6,8 +6,8 @@
             <strong>{{elOfList.id}}</strong>
             {{ elOfList.title }}
         </span>
-        <button class = "remove" @click="$emit('removeItem', elOfList.id)">
-            &times;
+        <button  @click="$emit('removeItem1', elOfList.id)"
+        >
         </button>
     </li>    
 </template>
@@ -26,7 +26,7 @@ export default {
 
 <style scoped>
 li {
-    border: 1px solid magenta;
+    border: 1px solid rgb(121, 55, 121);
     display: flex;
     justify-content: space-between;
     padding: 12px 43px;
@@ -35,5 +35,8 @@ li {
 }
 .done {
     text-decoration: line-through;
+}
+.remove {
+    background-color: brown;
 }
 </style>
