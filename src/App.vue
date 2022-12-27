@@ -1,15 +1,18 @@
 <template>
   <div id = "app">
     <h1>Todo APP</h1>
+    <AddTask
+    @add="addTask"
+    />
     <TodoList
       v-bind:taskList1 = "taskList2"
-      @removeItem1 = "removeTask"/> <!-- v-bind:taskList1 используется для привязки 1 или более атрибутов, значений к элементу taskList1 равное значению из массива taskList2 + динамически можно смотреть эти изменения пример https://progler.ru/blog/direktiva-v-bind-v-vue-js -->
+      @removeItem = "removeTask"/> <!-- v-bind:taskList1 используется для привязки 1 или более атрибутов или значений к элементу taskList1 равное значению из массива taskList2 + динамически можно смотреть эти изменения пример https://progler.ru/blog/direktiva-v-bind-v-vue-js -->
   </div>
 </template>
 
 <script>
 import TodoList from '@/components/TodoList.vue';
-
+import AddTask from '@/components/AddTask.vue';
 export default {
   name: 'App',
   data() {
@@ -24,10 +27,13 @@ export default {
   methods: {
     removeTask(id) {
       this.taskList2 = this.taskList2.filter(number => number.id !== id)
+    },
+    addTask(test) {
+      this.taskList2.push(test)
     }
   },
   components: {
-    TodoList
+    TodoList, AddTask
   }
 }
 

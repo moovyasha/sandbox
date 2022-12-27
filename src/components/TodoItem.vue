@@ -1,12 +1,12 @@
 <template>
     <li>
-        <span v-bind:class="{done: elOfList.completed}">
+        <span v-bind:class="{done: elOfList.completed}"> <!-- к span привязали класс с параметром done:(придумали, он в <script>) и значением elOfList.completed -->
             <input type="checkbox" 
             v-on:change = "elOfList.completed = !elOfList.completed">
-            <strong>{{elOfList.id}}</strong>
+            <strong>{{ index + 1}}</strong>
             {{ elOfList.title }}
         </span>
-        <button  @click="$emit('removeItem1', elOfList.id)"
+        <button  @click="$emit('removeItem', elOfList.id)"
         >
         </button>
     </li>    
@@ -18,7 +18,8 @@ export default {
         elOfList: {
             type: Object,
             required: true
-        }
+        },
+        index: Number
     }
 }
 </script>
