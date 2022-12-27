@@ -18,11 +18,11 @@ export default {
   data() {
     return {
       taskList2: [
-        {id: 1, title: 'byu 122', completed: false},
-        {id: 2, title: 'byu 1122', completed: false},
-        {id: 3, title: 'byu 123', completed: false},
-        {id: 4, title: 'byu 123', completed: false},
-        {id: 5, title: 'byu 123', completed: false}
+        {id: 1, title: 'byu 1', completed: false},
+        {id: 2, title: 'byu 2', completed: false},
+        {id: 3, title: 'byu 3', completed: false},
+        {id: 4, title: 'byu 4', completed: false},
+        {id: 5, title: 'byu 5', completed: false}
       ]
     }
   },
