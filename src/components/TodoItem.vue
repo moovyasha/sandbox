@@ -6,7 +6,7 @@
             <strong></strong>
             {{ elOfList.title }}
         </span>
-        <button  @click="$emit('removeItem', index)"
+        <button  @click="$emit('removeItem', elOfList.id)"
         > <!-- emit позволяет работать с локальными переменными, которые были объявлены здесь, чтобы не влиять на основные данные, которые у нас в data в файле app.vue. его мы передаем в файл TodoList.vue -->
         </button>
     </li>    
