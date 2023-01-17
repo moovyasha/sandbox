@@ -27,8 +27,9 @@ export default {
     }
   },
   methods: {
-    removeTask(id) {
-      this.taskList2 = this.taskList2.filter(number => number.id !== id)
+    removeTask(index) {
+      // this.taskList2 = this.taskList2.splice(index, 1);
+      console.log(this.taskList2.id[index])
     },
     addTask(test) {
       this.taskList2.push(test)

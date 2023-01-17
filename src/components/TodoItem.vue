@@ -2,12 +2,12 @@
     <li>
         <span v-bind:class="{done: elOfList.completed}"> <!-- к span привязали класс с параметром done:(придумали, он в <script>) и значением elOfList.completed -->
             <input type="checkbox" 
-            v-on:change = "elOfList.completed = !elOfList.completed">
-            <strong>{{ index + 1}}</strong>
+            v-model="elOfList.completed"> <!-- на checkbox повесили событие измнения с двойным условием -->
+            <strong></strong>
             {{ elOfList.title }}
         </span>
-        <button  @click="$emit('removeItem', elOfList.id)"
-        >
+        <button  @click="$emit('removeItem', index)"
+        > <!-- emit позволяет работать с локальными переменными, которые были объявлены здесь, чтобы не влиять на основные данные, которые у нас в data в файле app.vue. его мы передаем в файл TodoList.vue -->
         </button>
     </li>    
 </template>
@@ -17,7 +17,7 @@ export default {
     props: {
         elOfList: {
             type: Object,
-            required: true
+            required: true /* обящательно наличие данного элемента */
         },
         index: Number
     }

@@ -19,8 +19,8 @@ export default {
         TodoItem
     },
     methods: {
-        removeLi(id) {
-            this.$emit('removeItem',id)
+        removeLi(index) {
+            this.$emit('removeItem',index)
         }
     }
 }
