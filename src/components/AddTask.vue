@@ -25,7 +25,7 @@ export default {
           title: this.title,
           completed: false
         } /* создали новый элемент */
-        this.$emit('add', newTask) /* передали в emit newTask */
+        this.$emit('add1', newTask) /* передали в emit newTask */
         this.title = '' /* обнуление значения поля после добавления задачи */
       }
     }
