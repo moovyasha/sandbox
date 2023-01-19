@@ -2,8 +2,9 @@
   <div id="app">
     <h1>Todo APP</h1>
     <AddTask @add="addTask" />
-    <TodoList v-bind:taskList1="taskList2" @removeItem="removeTask" />
-    <!-- v-bind:taskList1 используется для привязки 1 или более атрибутов или значений к элементу taskList1 равное значению из массива taskList2 + динамически можно смотреть эти изменения пример https://progler.ru/blog/direktiva-v-bind-v-vue-js -->
+    <!-- <TodoList v-bind:taskList1="taskList2" @removeItem="removeTask" /> -->
+    <TodoList />
+    <!-- v-bind:taskList1 используется для привязки 1 или более атрибутов или значений к элементу taskList1 равное значению из массива taskList2, с помощью v-bind я передаю в файл Todolist массив в переменной taskList1, для получения массива в Todolist нужно прописать props: ['tasklist1'] + динамически можно смотреть эти изменения пример https://progler.ru/blog/direktiva-v-bind-v-vue-js -->
   </div>
 </template>
 
@@ -12,22 +13,8 @@ import TodoList from '@/components/TodoList.vue'
 import AddTask from '@/components/AddTask.vue'
 export default {
   name: 'App',
-  data() {
-    return {
-      taskList2: [
-        { id: 1, title: 'byu 1', completed: false },
-        { id: 2, title: 'byu 2', completed: false },
-        { id: 3, title: 'byu 3', completed: false },
-        { id: 4, title: 'byu 4', completed: false },
-        { id: 5, title: 'byu 5', completed: false }
-      ]
-    }
-  },
+
   methods: {
-    removeTask(id) {
-      const deleteId = this.taskList2.findIndex((item) => item.id === id)
-      this.taskList2.splice(deleteId, 1)
-    },
     addTask(test) {
       this.taskList2.push(test)
     }

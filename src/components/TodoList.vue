@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-      <TodoItem v-for="elOfList of taskList1" v-bind:elOfList="elOfList" v-on:removeItem="removeLi" />
+      <TodoItem v-for="elOfList of taskList" v-bind:elOfList="elOfList" v-on:removeItem="removeLi" />
       <!-- v-for позволяет  отрисовать массив + пробег по массиву (как цикл for). elOfList - ссылка на элемент массива, taskList1 - массив. -->
       <!-- v-on служит для обработки событий v-on:click, change и др, можно назначать свои, но тогда необходимо указать их в methods. -->
     </ul>
@@ -17,7 +17,19 @@ export default {
   },
   methods: {
     removeLi(id) {
-      this.$emit('removeItem', id)
+      const deleteId = this.taskList.findIndex((item) => item.id === id)
+      this.taskList.splice(deleteId, 1)
+    }
+  },
+  data() {
+    return {
+      taskList: [
+        { id: 1, title: 'byu 1', completed: false },
+        { id: 2, title: 'byu 2', completed: false },
+        { id: 3, title: 'byu 3', completed: false },
+        { id: 4, title: 'byu 4', completed: false },
+        { id: 5, title: 'byu 5', completed: false }
+      ]
     }
   }
 }
