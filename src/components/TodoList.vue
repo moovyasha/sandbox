@@ -2,9 +2,10 @@
   <div>
     <AddTask @add1="addTask" />
     <ul>
-      <TodoItem v-for="task of taskList" v-bind:task="task" v-on:removeItem="removeTask" v-on:completeTask="completed" />
+      <TodoItem v-for="(task, i) of taskList" v-bind:task="task" v-on:removeItem="removeTask" v-on:completeTask="completed" v-bind:indexTask="i" />
       <!-- v-for позволяет  отрисовать массив + пробег по массиву (как цикл for). task - ссылка на элемент массива, taskList - массив. -->
       <!-- v-on служит для обработки событий v-on:click, change и др, можно назначать свои, но тогда необходимо указать их в methods. -->
+      <!-- также  v-on позволяет получать параметры из дочерних файлов. Здесь v-on:completeTask="completed" получили из TodoItem.vue, от туда его отправили через $emit -->
       <!-- с помощью v-bind я передаю в файл TodoItem массив в переменной task, для получения массива в TodoItem нужно прописать props: task: {type: Object, required: true} -->
       <!--  -->
     </ul>
@@ -35,14 +36,15 @@ export default {
   },
   data() {
     return {
-      taskList: [
-        { id: 1, title: 'byu 1', completed: false },
-        { id: 2, title: 'byu 2', completed: false },
-        { id: 3, title: 'byu 3', completed: false },
-        { id: 4, title: 'byu 4', completed: false },
-        { id: 5, title: 'byu 5', completed: false }
-      ]
+      taskList: []
     }
+  },
+  mounted() {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10') //сделали лимит вывода на 10 (?_limit=10)
+      .then((response) => response.json())
+      .then((json) => {
+        this.taskList = json
+      })
   }
 }
 </script>

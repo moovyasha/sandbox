@@ -18,8 +18,8 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.title)
-      if (this.title.trim()) {
+      // console.log(this.title)
+      if (this.title.trim()) { //проверка на введенный текст в поле
         const newTask = {
           id: Date.now(),
           title: this.title,
