@@ -2,7 +2,7 @@
   <li>
     <span v-bind:class="{ done: task.completed }" @click="$emit('completeTask', task.id)">
       <input type="checkbox" :checked="task.completed" />
-      {{ indexTask + 1 }} {{ task.title }} {{ task.completed }}
+      {{ indexTask + 1 }} {{ firstUpperCase }} {{ task.completed }}
     </span>
     <!-- к span привязали класс с параметром done:(придумали, он в <script>) и значением task.completed, которое равно false из массива taskList-->
     <!-- при клике на текст меняется значение на true в объекте taskList, c checkbox - у него есть состояние checked -->
@@ -24,6 +24,12 @@ export default {
       required: true /* обящательно наличие данного элемента */
     },
     indexTask: Number
+  },
+  computed: {
+    //computed - вычисляемое свойство
+    firstUpperCase() {
+      return this.task.title[0].toUpperCase()+this.task.title.slice(1)
+    }
   }
 }
 </script>

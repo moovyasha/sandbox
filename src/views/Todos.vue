@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Todo</h2>
-    <RouterLink to="/">HOME</RouterLink>
+    
     <!-- <AddTask @add="addTask" /> -->
     <!-- <TodoList v-bind:taskList1="taskList2" @removeItem="removeTask" /> -->
     <TodoList />

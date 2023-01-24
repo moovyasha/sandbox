@@ -1,10 +1,25 @@
 <template>
   <div id="app">
     <h1>Todo APP</h1>
-    <hr />
+    <p>
+      <RouterLink to="/">HOME</RouterLink>
+      <div v-if="this.$route.path === '/'">тута
+      </div>
+    </p>
+    <p>
+      <router-link to="/todos">Todos</router-link>
+      <div v-if="this.$route.path === '/todos'">тута
+      </div>
+    </p>
+    <hr>
     <router-view />
   </div>
+  
 </template>
+
+<script>
+
+</script>
 
 <style>
 #app {

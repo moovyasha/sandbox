@@ -6,7 +6,7 @@
       similique quasi consequuntur distinctio nesciunt eius dignissimos eos soluta molestias velit provident!
     </p>
 
-    <router-link to="/todos">Todos</router-link>
+    
     <!-- было <a href="/todos">Todos</a> - это открытие страницы снова. роутер линк позволяет прыгать по ссылкам не перезагружая страницу снова-->
   </div>
 </template>
