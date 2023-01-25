@@ -1,24 +1,25 @@
 <template>
   <div id="app">
     <h1>Todo APP</h1>
-    <p>
-      <RouterLink to="/">HOME</RouterLink>
-      <div v-if="this.$route.path === '/'">тута
-      </div>
-    </p>
-    <p>
-      <router-link to="/todos">Todos</router-link>
-      <div v-if="this.$route.path === '/todos'">тута
-      </div>
-    </p>
-    <hr>
+    <Menu />
+    <!-- <RouterLink to="/">HOME</RouterLink>
+    <div v-if="this.$route.path === '/'">тута</div>
+    <router-link to="/todos">Todos</router-link>
+    <div v-if="this.$route.path === '/todos'">тута</div> -->
+
+    <hr />
     <router-view />
   </div>
-  
 </template>
 
 <script>
+import Menu from '@/views/Menu.vue'
 
+export default {
+  components: {
+    Menu
+  }
+}
 </script>
 
 <style>
@@ -29,5 +30,12 @@
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.exact-active-link {
+  color: red;
+}
+.active-link {
+  color: aqua;
 }
 </style>
