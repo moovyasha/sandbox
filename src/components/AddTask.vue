@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit" class = "padding_form">
     <!-- повесили событие отпраки формы и добавили модификатор не перещагрудать страницу -->
     <input type="Text" v-model="title" />
     <!-- v-model служит для связывания данных с формой -->
@@ -32,3 +32,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.padding_form {
+  padding-top: 10px;
+}
+</style>
