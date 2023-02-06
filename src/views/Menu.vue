@@ -4,7 +4,7 @@
       <RouterLink to="/" class="test">Home<IconHome /></RouterLink>
     </li>
     <li>
-      <router-link to="/todos">Todos<IconTodo /></router-link>
+      <router-link to="/todos">Tasks<IconTodo /></router-link>
     </li>
   </ul>
 </template>

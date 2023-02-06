@@ -36,5 +36,6 @@ export default {
 <style>
 .padding_form {
   padding-top: 10px;
+  padding-bottom: 10px;
 }
 </style>

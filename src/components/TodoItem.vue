@@ -6,14 +6,19 @@
     </span>
     <!-- к span привязали класс с параметром done:(придумали, он в <script>) и значением task.completed, которое равно false из массива taskList-->
     <!-- при клике на текст меняется значение на true в объекте taskList, c checkbox - у него есть состояние checked -->
+    <div>
+      <button @click="$emit('editTask', task.id)" claas="pop-up" tabindex="1" data-title="Edit task"><IconEdit /></button>
 
-    <button @click="$emit('removeItem', task.id)">УДАЛИ МЕНЯ))</button>
+      <button @click="$emit('removeTask', task.id)"><IconDelete claas="pop-up" data-title="Delete task" /></button>
+    </div>
     <!-- emit позволяет работать с локальными переменными, которые были объявлены здесь, чтобы не влиять на основные данные, которые у нас в data в файле app.vue. его мы передаем в файл TodoList.vue -->
     <!-- чтобы передать этот emit на уровень выше -->
   </li>
 </template>
 
 <script>
+import IconDelete from '@/components/Icons/IconDelete.vue'
+import IconEdit from '@/components/Icons/IconEdit.vue'
 export default {
   data() {
     return {}
@@ -28,15 +33,19 @@ export default {
   computed: {
     //computed - вычисляемое свойство
     firstUpperCase() {
-      return this.task.title[0].toUpperCase()+this.task.title.slice(1)
+      return this.task.title[0].toUpperCase() + this.task.title.slice(1)
     }
+  },
+  components: {
+    IconDelete,
+    IconEdit
   }
 }
 </script>
 
 <style scoped>
 li {
-  border: 1px solid rgb(121, 55, 121);
+  border: 4px solid rgb(121, 55, 121);
   display: flex;
   justify-content: space-between;
   padding: 12px 43px;
@@ -48,5 +57,12 @@ li {
 }
 .remove {
   background-color: brown;
+}
+button.pop-up::before {
+  content: attr(data-title);
+  display: none;
+}
+button.pop-up:focus::before {
+  display: block;
 }
 </style>

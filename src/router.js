@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 
+
 const routes = [
   //массив, где каджый объект - новая страница
   {
@@ -10,7 +11,8 @@ const routes = [
   {
     path: '/todos', //регистрируем еще 1 путь
     component: () => import('./views/Todos.vue') //это lazy loading
-  }
+  },
+  
 ]
 
 const router = createRouter({

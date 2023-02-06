@@ -1,16 +1,17 @@
 <template>
   <div>
-    <select v-model="filter">
+    <!-- <select v-model="filter">
       <option value="all">All</option>
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
-    </select>
+    </select> -->
+    <ButtonMW />
     <AddTask @add1="addTask" />
     <Loader v-if="loading" />
     <div v-else></div>
     <ul>
       <!-- если loading true, то показывать значок загрузки -->
-      <TodoItem v-for="(task, i) of filterTask" v-bind:task="task" v-on:removeItem="removeTask" v-on:completeTask="completed" v-bind:indexTask="i" />
+      <TodoItem v-for="(task, i) of filterTask" v-bind:task="task" v-on:removeTask="removeTask" v-on:completeTask="completed" v-bind:indexTask="i" />
 
       <!-- v-for позволяет  отрисовать массив + пробег по массиву (как цикл for). task - ссылка на элемент массива, taskList - массив. -->
       <!-- v-on служит для обработки событий v-on:click, change и др, можно назначать свои, но тогда необходимо указать их в methods. -->
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+import ButtonMW from "@/components/ButtonMW.vue"
 import TodoItem from '@/components/TodoItem.vue'
 import AddTask from '@/components/AddTask.vue'
 import Loader from '@/components/Loader.vue'
@@ -33,7 +35,8 @@ export default {
   components: {
     TodoItem,
     AddTask,
-    Loader
+    Loader,
+    ButtonMW
   },
   methods: {
     removeTask(index) {
@@ -41,7 +44,7 @@ export default {
       this.taskList.splice(deleteTask, 1)
     },
     addTask(add) {
-      this.taskList.push(add)
+      this.filterTask.push(add)
     },
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
@@ -52,7 +55,7 @@ export default {
     return {
       taskList: [],
       loading: true, //для отображения Loader'a
-      filter: 'all',
+      filter: 'all'
     }
   },
   mounted() {
@@ -65,18 +68,19 @@ export default {
         }, 1000)
       })
   },
-  computed: { 
-    filterTask () {
+  computed: {
+    filterTask() {
       if (this.filter === 'all') {
         return this.taskList
       }
       if (this.filter === 'completed') {
-        return this.taskList.filter(t => t.completed)
+        return this.taskList.filter((t) => t.completed)
       }
-      else 
-      return this.taskList.filter(t => !t.completed)
+      if (this.filter === 'not-completed') {
+        return this.taskList.filter((t) => !t.completed)
+      }
     }
-  }, // computed - вычисляемое свойство, создали функцию на фильтрование тасков, обязательно создаем переменную filter: 'all' (как начальное значение). в теге <selector> сделали привязку к переменной filter, для мониторинга ее значения. чтобы перерисовывал список тасков, то filterTask нужно подставить в TodoItem v-for="(task, i) of filterTask" вместо начального taskList и также в div v-if="filterTask.length", чтбы мониторил длину массива.
+  } // computed - вычисляемое свойство, создали функцию на фильтрование тасков, обязательно создаем переменную filter: 'all' (как начальное значение). в теге <selector> сделали привязку к переменной filter, для мониторинга ее значения. чтобы перерисовывал список тасков, то filterTask нужно подставить в TodoItem v-for="(task, i) of filterTask" вместо начального taskList и также в div v-if="filterTask.length", чтбы мониторил длину массива.
 }
 </script>
 
