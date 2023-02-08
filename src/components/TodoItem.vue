@@ -7,9 +7,9 @@
     <!-- к span привязали класс с параметром done:(придумали, он в <script>) и значением task.completed, которое равно false из массива taskList-->
     <!-- при клике на текст меняется значение на true в объекте taskList, c checkbox - у него есть состояние checked -->
     <div>
-      <button @click="$emit('editTask', task.id)" claas="pop-up" tabindex="1" data-title="Edit task"><IconEdit /></button>
+      <button @click="$emit('editTask', task.id)"><IconEdit /></button>
 
-      <button @click="$emit('removeTask', task.id)"><IconDelete claas="pop-up" data-title="Delete task" /></button>
+      <button @click="$emit('removeTask', task.id)"><IconDelete/></button>
     </div>
     <!-- emit позволяет работать с локальными переменными, которые были объявлены здесь, чтобы не влиять на основные данные, которые у нас в data в файле app.vue. его мы передаем в файл TodoList.vue -->
     <!-- чтобы передать этот emit на уровень выше -->

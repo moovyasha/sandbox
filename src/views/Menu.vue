@@ -22,6 +22,9 @@ export default {
 </script>
 
 <style>
+ul {
+  padding-inline-start: 0px;
+}
 .menu li {
   list-style-type: none;
   display: inline-table;

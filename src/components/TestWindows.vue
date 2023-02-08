@@ -1,41 +1,42 @@
 <template>
-  <transition name="modal">
-    <div v-if="show" class="modal-shadow"> 
-      <!-- это само окно, которое будет всплывать -->
-      <div class="modal">
-        <div class="modal-close" @click="closeModal">&#10006;</div> 
+  <button @click="testVisible">TEST</button>
+  <div v-if="show" class="modal-shadow">
+    <div class="modal">
+        <div class="modal-close" @click="testNotVisible">&#10006;</div> 
 <!-- при клике на крестик значение show становится false и пропадает всплывающее окно. -->
         <h3 class="modal-title">Заголовок</h3>
 
         <div class="modal-content">Дефолтный контент модального окна</div>
 
         <div class="modal-footer">
-          <button class="modal-footer__button" @click="closeModal">Ок</button>
+          <button class="modal-footer__button" @click="testNotVisible">Ок</button>
         </div>
       </div>
-    </div>
-  </transition>
+  </div>
 </template>
 
 <script>
 export default {
-  
-  data () {
+  data() {
     return {
-      show: false
+      visible: false
     }
+  },
+  props: {
+    show,
   },
   methods: {
-    closeModal: function () {
+    testVisible: function () {
+      this.show = true
+    },
+    testNotVisible: function () {
       this.show = false
-      this.$emit('test', this.show) // функция, которая show присваивает значение false, ее вызываем при клике (на кнопку ОК или на крестик)
     }
-  },
-  
+  }
 }
 </script>
 
-<style scoped>
+<style>
 .modal-shadow {
   position: fixed;
   /* z-index: 9998; */
@@ -91,16 +92,5 @@ export default {
   font-weight: 500;
   border-radius: 8px;
   min-width: 150px;
-}
-.modal-enter-active {
-  transition: opacity 0.5s ease;
-}
-.modal-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.modal-enter,
-.modal-leave-to {
-  opacity: 0;
 }
 </style>

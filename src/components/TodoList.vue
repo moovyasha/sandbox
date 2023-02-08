@@ -5,7 +5,7 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <ButtonMW />
+    <TestWindows @v-bind:show="show"/>
     <AddTask @add1="addTask" />
     <Loader v-if="loading" />
     <div v-else></div>
@@ -26,18 +26,31 @@
 </template>
 
 <script>
-import ButtonMW from "@/components/ButtonMW.vue"
+import ButtonModalWindow from '@/components/ButtonModalWindow.vue'
 import TodoItem from '@/components/TodoItem.vue'
 import AddTask from '@/components/AddTask.vue'
 import Loader from '@/components/Loader.vue'
+import ModalWindow from './ModalWindow.vue'
+import TestWindows from './TestWindows.vue'
+
 export default {
+  data() {
+    return {
+      taskList: [],
+      loading: true, //для отображения Loader'a
+      filter: 'all',
+      show: true
+    }
+  },
   props: ['taskList1'], //здесь taskList1 свойство, которое передаем из главного файла App.vue в строке v-bind:taskList1 = "taskList2", где taskList1 принимает значения из массива taskList2
   components: {
     TodoItem,
     AddTask,
     Loader,
-    ButtonMW
-  },
+    ButtonModalWindow,
+    ModalWindow,
+    TestWindows
+},
   methods: {
     removeTask(index) {
       const deleteTask = this.taskList.findIndex((item) => item.id === index)
@@ -49,13 +62,6 @@ export default {
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
-    }
-  },
-  data() {
-    return {
-      taskList: [],
-      loading: true, //для отображения Loader'a
-      filter: 'all'
     }
   },
   mounted() {
