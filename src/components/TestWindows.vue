@@ -1,37 +1,27 @@
 <template>
-  <button @click="testVisible">TEST</button>
-  <div v-if="show" class="modal-shadow">
+  <button @click="$emit('testVisible', visib)">TEST</button>
+  <div v-if="visib" class="modal-shadow">
     <div class="modal">
-        <div class="modal-close" @click="testNotVisible">&#10006;</div> 
-<!-- при клике на крестик значение show становится false и пропадает всплывающее окно. -->
-        <h3 class="modal-title">Заголовок</h3>
+      <div class="modal-close">&#10006;</div>
+      <!-- при клике на крестик значение show становится false и пропадает всплывающее окно. -->
+      <h3 class="modal-title">Заголовок</h3>
 
-        <div class="modal-content">Дефолтный контент модального окна</div>
+      <div class="modal-content">Дефолтный контент модального окна</div>
 
-        <div class="modal-footer">
-          <button class="modal-footer__button" @click="testNotVisible">Ок</button>
-        </div>
+      <div class="modal-footer">
+        <button class="modal-footer__button">Ок</button>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {
-      visible: false
-    }
+    return {}
   },
   props: {
-    show,
-  },
-  methods: {
-    testVisible: function () {
-      this.show = true
-    },
-    testNotVisible: function () {
-      this.show = false
-    }
+    visib
   }
 }
 </script>

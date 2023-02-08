@@ -5,7 +5,7 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <TestWindows @v-bind:show="show"/>
+    <TestWindows :visib="show" @testVisible="testVisible" @testNotVisible="testNotVisible"/>
     <AddTask @add1="addTask" />
     <Loader v-if="loading" />
     <div v-else></div>
@@ -62,6 +62,12 @@ export default {
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
+    },
+    testVisible (visib) {
+      this.show = visib
+    },
+    testNotVisible (visib) {
+      this.show = visib
     }
   },
   mounted() {
