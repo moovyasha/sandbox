@@ -1,15 +1,15 @@
 <template>
-  <button @click="$emit('testVisible', visib)">TEST</button>
-  <div v-if="visib" class="modal-shadow">
+  <button @click="$emit('testVisible', show=true)">TEST</button>
+  <div v-if="show" class="modal-shadow">
     <div class="modal">
-      <div class="modal-close">&#10006;</div>
+      <div class="modal-close" @click="$emit('testNotVisible', show=false)">&#10006;</div>
       <!-- при клике на крестик значение show становится false и пропадает всплывающее окно. -->
       <h3 class="modal-title">Заголовок</h3>
 
       <div class="modal-content">Дефолтный контент модального окна</div>
 
       <div class="modal-footer">
-        <button class="modal-footer__button">Ок</button>
+        <button class="modal-footer__button" @click="$emit('testNotVisible', show=false)">Ок</button>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@ export default {
     return {}
   },
   props: {
-    visib
+    show: Boolean
   }
 }
 </script>

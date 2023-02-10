@@ -5,7 +5,7 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <TestWindows :visib="show" @testVisible="testVisible" @testNotVisible="testNotVisible"/>
+    <TestWindows :show="show" @testVisible="testVisible" @testNotVisible="testNotVisible"/>
     <AddTask @add1="addTask" />
     <Loader v-if="loading" />
     <div v-else></div>
@@ -39,7 +39,7 @@ export default {
       taskList: [],
       loading: true, //для отображения Loader'a
       filter: 'all',
-      show: true
+      show: false
     }
   },
   props: ['taskList1'], //здесь taskList1 свойство, которое передаем из главного файла App.vue в строке v-bind:taskList1 = "taskList2", где taskList1 принимает значения из массива taskList2
@@ -63,11 +63,11 @@ export default {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
     },
-    testVisible (visib) {
-      this.show = visib
+    testVisible (show) {
+      this.show = show
     },
-    testNotVisible (visib) {
-      this.show = visib
+    testNotVisible (show) {
+      this.show = show
     }
   },
   mounted() {
