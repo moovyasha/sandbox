@@ -5,7 +5,7 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <TestWindows :show="show" @testVisible="testVisible" @testNotVisible="testNotVisible"/>
+    <TestWindows :show="show" @ToggleVisibleForm="ToggleVisibleForm" />
     <AddTask @add1="addTask" />
     <Loader v-if="loading" />
     <div v-else></div>
@@ -63,12 +63,10 @@ export default {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
     },
-    testVisible (show) {
-      this.show = show
+    ToggleVisibleForm (value) {
+      this.show = value
     },
-    testNotVisible (show) {
-      this.show = show
-    }
+    
   },
   mounted() {
     fetch('https://jsonplaceholder.typicode.com/todos?_limit=10') //сделали лимит вывода на 10 (?_limit=10)
