@@ -1,16 +1,24 @@
 <template>
-  <button @click="$emit('toggleVisibleForm', true)"><IconEdit /></button>
   <div v-if="show" class="modal-shadow">
     <div class="modal">
       <div class="modal-close" @click="$emit('toggleVisibleForm', false)">&#10006;</div>
       <!-- при клике на крестик значение show становится false и пропадает всплывающее окно. -->
-      <h3 class="modal-title">Текущая задача</h3>
+      <form @submit.prevent="onSubmit" id="saveTask" class="padding_form">
+        <!-- повесили событие отпраки формы и добавили модификатор не перещагрудать страницу -->
+        <input type="Text" v-model="title" />
+        <!-- v-model служит для связывания данных с формой -->
+        <!-- <input v-model="message" placeholder="отредактируй меня" />
+<p>Сообщение: {{ message }}</p>   https://ru.vuejs.org/v2/guide/forms.html -->
+        <!-- <button type="submit"><img src="@/assets/AddTask.png"></button> -->
+      </form>
 
-      <div class="modal-content">Дефолтный контент модального окна</div>
+      <div class="modal-content">Current Task</div>
 
       <div class="modal-footer">
-        <button class="modal-footer__button" @click="$emit('toggleVisibleForm', false)">Save</button>
-        <button class="modal-footer__button" @click="$emit('toggleVisibleForm', false)">Cancel</button>
+        <button type="submit" form="saveTask" class="modal-footer__button" @click="$emit('toggleVisibleForm', false)">Save</button>
+        
+          <button class="modal-footer__button" @click="$emit('toggleVisibleForm', false)">Cancel</button>
+        
       </div>
     </div>
   </div>
@@ -21,15 +29,32 @@ import IconEdit from '@/components/Icons/IconEdit.vue'
 
 export default {
   data() {
-    return {}
+    return {
+      title: ''
+    }
   },
   props: {
     show: Boolean
   },
   components: {
-    IconEdit,
+    IconEdit
   },
-  emits: ['toggleVisibleForm'], //ее нужно прописать, чтобы определялась, во vue 2 не надо.
+  emits: ['toggleVisibleForm', 'addTask'], //ее нужно прописать, чтобы определялась, во vue 2 не надо.
+  methods: {
+    onSubmit() {
+      // console.log(this.title)
+      if (this.title.trim()) {
+        //проверка на введенный текст в поле
+        const newTask = {
+          id: Date.now(),
+          title: this.title,
+          completed: false
+        } /* создали новый элемент */
+        this.$emit('addTask', newTask) /* передали в emit newTask */
+        this.title = '' /* обнуление значения поля после добавления задачи */
+      }
+    }
+  }
 }
 </script>
 

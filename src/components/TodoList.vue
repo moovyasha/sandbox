@@ -5,13 +5,23 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
+    <VisibleForm :show="show" @toggleVisibleForm="toggleVisibleForm" @addTask="addTask"/>
+    <button @click="toggleVisibleForm(true)"><img src="@/assets/AddTask.png" /></button>
+    <!-- <AddTask @add1="addTask" />  -->
 
-    <AddTask @add1="addTask" />
     <Loader v-if="loading" />
     <div v-else></div>
     <ul>
       <!-- если loading true, то показывать значок загрузки -->
-      <TodoItem v-for="(task, i) of filterTask" v-bind:task="task" v-on:removeTask="removeTask" v-on:completeTask="completed" v-bind:indexTask="i" />
+      <TodoItem
+        v-for="(task, i) of taskList"
+        v-bind:task="task"
+        v-on:removeTask="removeTask"
+        v-on:completeTask="completed"
+        v-bind:indexTask="i"
+        :show="show"
+        @editItem="editItem"
+      />
 
       <!-- v-for позволяет  отрисовать массив + пробег по массиву (как цикл for). task - ссылка на элемент массива, taskList - массив. -->
       <!-- v-on служит для обработки событий v-on:click, change и др, можно назначать свои, но тогда необходимо указать их в methods. -->
@@ -20,12 +30,13 @@
       <!-- v-else-if="taskList.length" иначе если длина не равна 0, то отображает список и не показывает значок загрузки -->
       <!-- <p v-else>No task!</p> иначе при отсутствии записей выводить запись No task! -->
     </ul>
-    <div v-if="filterTask.length"></div>
+    <div v-if="taskList.length"></div>
     <p v-else>No Task!</p>
   </div>
 </template>
 
 <script>
+import VisibleForm from './VisibleForm.vue'
 import TodoItem from '@/components/TodoItem.vue'
 import AddTask from '@/components/AddTask.vue'
 import Loader from '@/components/Loader.vue'
@@ -35,14 +46,16 @@ export default {
     return {
       taskList: [],
       loading: true, //для отображения Loader'a
-      filter: 'all'
+      filter: 'all',
+      show: false
     }
   },
   props: ['taskList1'], //здесь taskList1 свойство, которое передаем из главного файла App.vue в строке v-bind:taskList1 = "taskList2", где taskList1 принимает значения из массива taskList2
   components: {
     TodoItem,
     AddTask,
-    Loader
+    Loader,
+    VisibleForm
   },
   methods: {
     removeTask(index) {
@@ -50,11 +63,17 @@ export default {
       this.taskList.splice(deleteTask, 1)
     },
     addTask(add) {
-      this.filterTask.push(add)
+      this.taskList.push(add)
     },
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
+    },
+    toggleVisibleForm(value) {
+      this.show = value
+    },
+    editItem(value) {
+      this.show = value
     }
   },
   mounted() {
