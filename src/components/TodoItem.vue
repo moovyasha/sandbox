@@ -7,7 +7,7 @@
     <!-- к span привязали класс с параметром done:(придумали, он в <script>) и значением task.completed, которое равно false из массива taskList-->
     <!-- при клике на текст меняется значение на true в объекте taskList, c checkbox - у него есть состояние checked -->
     <div>
-      <button @click="$emit('editTask', task.id)"><IconEdit /></button>
+      <VisibleForm :show="show" @toggleVisibleForm="toggleVisibleForm" />
 
       <button @click="$emit('removeTask', task.id)"><IconDelete/></button>
     </div>
@@ -17,11 +17,14 @@
 </template>
 
 <script>
+import VisibleForm from './VisibleForm.vue'
 import IconDelete from '@/components/Icons/IconDelete.vue'
 import IconEdit from '@/components/Icons/IconEdit.vue'
 export default {
   data() {
-    return {}
+    return {
+      show: false,
+    }
   },
   props: {
     task: {
@@ -38,8 +41,14 @@ export default {
   },
   components: {
     IconDelete,
-    IconEdit
+    IconEdit,
+    VisibleForm
+  },
+  methods: {toggleVisibleForm(value) {
+      this.show = value
+    }
   }
+  
 }
 </script>
 

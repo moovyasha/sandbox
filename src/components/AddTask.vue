@@ -5,7 +5,7 @@
     <!-- v-model служит для связывания данных с формой -->
     <!-- <input v-model="message" placeholder="отредактируй меня" />
 <p>Сообщение: {{ message }}</p>   https://ru.vuejs.org/v2/guide/forms.html -->
-    <button type="submit">Add</button>
+    <button type="submit"><img src="@/assets/AddTask.png"></button>
   </form>
 </template>
 

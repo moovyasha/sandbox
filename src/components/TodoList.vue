@@ -5,7 +5,7 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <TestWindows :show="show" @ToggleVisibleForm="ToggleVisibleForm" />
+
     <AddTask @add1="addTask" />
     <Loader v-if="loading" />
     <div v-else></div>
@@ -26,31 +26,24 @@
 </template>
 
 <script>
-import ButtonModalWindow from '@/components/ButtonModalWindow.vue'
 import TodoItem from '@/components/TodoItem.vue'
 import AddTask from '@/components/AddTask.vue'
 import Loader from '@/components/Loader.vue'
-import ModalWindow from './ModalWindow.vue'
-import TestWindows from './TestWindows.vue'
 
 export default {
   data() {
     return {
       taskList: [],
       loading: true, //для отображения Loader'a
-      filter: 'all',
-      show: false
+      filter: 'all'
     }
   },
   props: ['taskList1'], //здесь taskList1 свойство, которое передаем из главного файла App.vue в строке v-bind:taskList1 = "taskList2", где taskList1 принимает значения из массива taskList2
   components: {
     TodoItem,
     AddTask,
-    Loader,
-    ButtonModalWindow,
-    ModalWindow,
-    TestWindows
-},
+    Loader
+  },
   methods: {
     removeTask(index) {
       const deleteTask = this.taskList.findIndex((item) => item.id === index)
@@ -62,11 +55,7 @@ export default {
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
-    },
-    ToggleVisibleForm (value) {
-      this.show = value
-    },
-    
+    }
   },
   mounted() {
     fetch('https://jsonplaceholder.typicode.com/todos?_limit=10') //сделали лимит вывода на 10 (?_limit=10)

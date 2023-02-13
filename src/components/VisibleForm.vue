@@ -1,29 +1,35 @@
 <template>
-  <button @click="$emit('ToggleVisibleForm', true)">TEST</button>
+  <button @click="$emit('toggleVisibleForm', true)"><IconEdit /></button>
   <div v-if="show" class="modal-shadow">
     <div class="modal">
-      <div class="modal-close" @click="$emit('ToggleVisibleForm', false)">&#10006;</div>
+      <div class="modal-close" @click="$emit('toggleVisibleForm', false)">&#10006;</div>
       <!-- при клике на крестик значение show становится false и пропадает всплывающее окно. -->
-      <h3 class="modal-title">Заголовок</h3>
+      <h3 class="modal-title">Текущая задача</h3>
 
       <div class="modal-content">Дефолтный контент модального окна</div>
 
       <div class="modal-footer">
-        <button class="modal-footer__button" @click="$emit('ToggleVisibleForm', false)">Ок</button>
+        <button class="modal-footer__button" @click="$emit('toggleVisibleForm', false)">Save</button>
+        <button class="modal-footer__button" @click="$emit('toggleVisibleForm', false)">Cancel</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import IconEdit from '@/components/Icons/IconEdit.vue'
+
 export default {
   data() {
     return {}
   },
   props: {
-    show: Boolean,
-    
-  }
+    show: Boolean
+  },
+  components: {
+    IconEdit,
+  },
+  emits: ['toggleVisibleForm'], //ее нужно прописать, чтобы определялась, во vue 2 не надо.
 }
 </script>
 
@@ -79,6 +85,7 @@ export default {
   border: none;
   text-align: center;
   padding: 8px;
+  margin: 2px;
   font-size: 17px;
   font-weight: 500;
   border-radius: 8px;
