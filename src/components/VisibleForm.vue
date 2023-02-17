@@ -15,10 +15,9 @@
       <div class="modal-content">Current Task</div>
 
       <div class="modal-footer">
-        <button type="submit" form="saveTask" class="modal-footer__button" @click="$emit('toggleVisibleForm', false)">Save</button>
-        
-          <button class="modal-footer__button" @click="$emit('toggleVisibleForm', false)">Cancel</button>
-        
+        <button type="submit" form="saveTask" class="modal-footer__button">Save</button>
+
+        <button class="modal-footer__button" @click="$emit('toggleVisibleForm', false)">Cancel</button>
       </div>
     </div>
   </div>
@@ -53,6 +52,7 @@ export default {
         this.$emit('addTask', newTask) /* передали в emit newTask */
         this.title = '' /* обнуление значения поля после добавления задачи */
       }
+      this.$emit('toggleVisibleForm', false)
     }
   }
 }

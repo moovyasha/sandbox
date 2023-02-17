@@ -5,8 +5,8 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <VisibleForm :show="show" @toggleVisibleForm="toggleVisibleForm" @addTask="addTask"/>
-    <button @click="toggleVisibleForm(true)"><img src="@/assets/AddTask.png" /></button>
+    <VisibleForm :show="show" @toggleVisibleForm="toggleVisibleForm" @addTask="addTask" />
+    <button @click="toggleVisibleForm(true)" class="button-add"><img src="@/assets/AddTask.png" /></button>
     <!-- <AddTask @add1="addTask" />  -->
 
     <Loader v-if="loading" />
@@ -15,10 +15,10 @@
       <!-- если loading true, то показывать значок загрузки -->
       <TodoItem
         v-for="(task, i) of taskList"
-        v-bind:task="task"
-        v-on:removeTask="removeTask"
-        v-on:completeTask="completed"
-        v-bind:indexTask="i"
+        :task="task"
+        @removeTask="removeTask"
+        @completeTask="completed"
+        :indexTask="i"
         :show="show"
         @editItem="editItem"
       />
@@ -109,7 +109,10 @@ ul {
   padding: 0;
 }
 
-.test {
-  padding: 10px;
+.button-add {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
 }
 </style>
