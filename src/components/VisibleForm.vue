@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="modal-shadow">
+  <div class="modal-shadow">
     <div class="modal">
       <div class="modal-close" @click="$emit('toggleVisibleForm', false)">&#10006;</div>
       <!-- при клике на крестик значение show становится false и пропадает всплывающее окно. -->
@@ -11,7 +11,7 @@
 <p>Сообщение: {{ message }}</p>   https://ru.vuejs.org/v2/guide/forms.html -->
         <!-- <button type="submit"><img src="@/assets/AddTask.png"></button> -->
       </form>
-
+      <!-- @submit.prevent="onSubmit" -->
       <div class="modal-content">Current Task</div>
 
       <div class="modal-footer">
@@ -32,8 +32,12 @@ export default {
       title: ''
     }
   },
+  mounted() {
+      console.log(this.editedItem)
+    },
   props: {
-    show: Boolean
+    show: Boolean,
+    editedItem: Object
   },
   components: {
     IconEdit
@@ -53,7 +57,8 @@ export default {
         this.title = '' /* обнуление значения поля после добавления задачи */
       }
       this.$emit('toggleVisibleForm', false)
-    }
+    },
+    
   }
 }
 </script>
@@ -61,7 +66,6 @@ export default {
 <style>
 .modal-shadow {
   position: fixed;
-  /* z-index: 9998; */
   top: 0;
   left: 0;
   width: 100%;

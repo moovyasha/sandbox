@@ -7,7 +7,7 @@
     <!-- к span привязали класс с параметром done:(придумали, он в <script>) и значением task.completed, которое равно false из массива taskList-->
     <!-- при клике на текст меняется значение на true в объекте taskList, c checkbox - у него есть состояние checked -->
     <div>
-      <button @click="$emit('editItem', true)"><IconEdit /></button>
+      <button @click="$emit('editItem', task)"><IconEdit /></button>
 
       <button @click="$emit('removeTask', task.id)"><IconDelete /></button>
     </div>
@@ -23,11 +23,13 @@ export default {
   data() {
     return {}
   },
+
   props: {
     task: {
       type: Object,
       required: true /* обящательно наличие данного элемента */
     },
+
     show: Boolean,
     indexTask: Number
   },

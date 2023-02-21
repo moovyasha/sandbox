@@ -5,7 +5,7 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <VisibleForm :show="show" @toggleVisibleForm="toggleVisibleForm" @addTask="addTask" />
+    <VisibleForm v-if="show" :show="show" :editedItem="editedItem" @toggleVisibleForm="toggleVisibleForm" @addTask="addTask"/>
     <button @click="toggleVisibleForm(true)" class="button-add"><img src="@/assets/AddTask.png" /></button>
     <!-- <AddTask @add1="addTask" />  -->
 
@@ -47,7 +47,8 @@ export default {
       taskList: [],
       loading: true, //для отображения Loader'a
       filter: 'all',
-      show: false
+      show: false,
+      editedItem: undefined
     }
   },
   props: ['taskList1'], //здесь taskList1 свойство, которое передаем из главного файла App.vue в строке v-bind:taskList1 = "taskList2", где taskList1 принимает значения из массива taskList2
@@ -63,6 +64,7 @@ export default {
       this.taskList.splice(deleteTask, 1)
     },
     addTask(add) {
+      
       this.taskList.push(add)
     },
     completed(index) {
@@ -72,12 +74,13 @@ export default {
     toggleVisibleForm(value) {
       this.show = value
     },
-    editItem(value) {
-      this.show = value
+    editItem(task) {
+      this.editedItem = task
+      this.show = true
     }
   },
   mounted() {
-    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10') //сделали лимит вывода на 10 (?_limit=10)
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=3') //сделали лимит вывода на 3 (?_limit=3)
       .then((response) => response.json())
       .then((json) => {
         setTimeout(() => {
@@ -114,5 +117,26 @@ ul {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
+}
+.modal-shadow {
+  position: fixed;
+  /* z-index: 9998; */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000081;
+  display: table;
+}
+.modal {
+  background: #6db90a;
+  border-radius: 8px;
+  padding: 15px;
+  min-width: 420px;
+  max-width: 480px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
