@@ -68,13 +68,7 @@ export default {
       this.taskList.splice(deleteTask, 1)
     },
     addTask(add) {
-      const index = this.taskList.findIndex((item) => item.id === add)
-      if (index !== -1) {
-        this.taskList[index] = add
-      } else {
-        this.taskList.push(add)
-      }
-      
+      this.taskList.push(add)
     },
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
@@ -93,7 +87,7 @@ export default {
     
   },
   mounted() {
-    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10') //сделали лимит вывода на 3 (?_limit=3)
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=3') //сделали лимит вывода на 3 (?_limit=3)
       .then((response) => response.json())
       .then((json) => {
         setTimeout(() => {
