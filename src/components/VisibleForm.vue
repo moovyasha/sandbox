@@ -1,9 +1,9 @@
 <template>
   <div class="modal-shadow">
     <div class="modal">
-      <div class="modal-close" @click="defaultAndExit()">&#10006;</div>
+      <div class="modal-close" @click="this.$emit('onCancel')">&#10006;</div>
       <!-- при клике на крестик значение show становится false и пропадает всплывающее окно. -->
-      <form @submit.prevent="onSubmit" id="saveTask" class="padding_form">
+      <form @submit.prevent="this.$emit('onSubmit')" id="saveTask" class="padding_form">
         <!-- повесили событие отпраки формы и добавили модификатор не перещагрудать страницу -->
         <input type="Text" v-model="title" />
         <!-- v-model служит для связывания данных с формой -->
@@ -17,7 +17,7 @@
       <div class="modal-footer">
         <button type="submit" form="saveTask" class="modal-footer__button">Save</button>
 
-        <button class="modal-footer__button" @click="defaultAndExit()">Cancel</button>
+        <button class="modal-footer__button" @click="this.$emit('onCancel')">Cancel</button>
       </div>
     </div>
   </div>
@@ -28,29 +28,9 @@ import IconEdit from '@/components/Icons/IconEdit.vue'
 
 export default {
   data() {
-    return {
-      id: '',
-      title: '',
-      completed: '',
-      defaultTask: {
-        id: '',
-        title: '',
-        completed: ''
-      }
-    }
+    return {}
   },
-  mounted() {
-    if (typeof this.editedItem != 'undefined') {
-      this.id = this.editedItem.id
-      this.title = this.editedItem.title
-      this.completed = this.editedItem.completed
-    } else {
-      this.id = ''
-      this.title = ''
-      this.completed = ''
-    }
-    console.log(this.editedItem)
-  },
+  mounted() {},
   props: {
     show: Boolean,
     editedItem: Object
@@ -58,43 +38,19 @@ export default {
   components: {
     IconEdit
   },
-  emits: ['toggleVisibleForm', 'addTask', 'setDefaultTask'], //ее нужно прописать, чтобы определялась, во vue 2 не надо.
+  emits: ['onCancel', 'addTask', 'toggleVisibleForm', 'onSubmit'], //ее нужно прописать, чтобы определялась, во vue 2 не надо.
   methods: {
-    onSubmit() {
-      if (this.title.trim()) {
-        if (typeof this.editedItem != 'undefined') {
-          const newTask = {
-          id: this.editedItem.id,
-          title: this.editedItem.title,
-          completed: this.editedItem.completed
-        }
-        console.log(newTask)
-        this.$emit('addTask', newTask)
-        // this.title = ''
-        }
-        else {
-        //проверка на введенный текст в поле
-        const newTask = {
-          id: Date.now(),
-          title: this.title,
-          completed: false
-        } /* создали новый элемент */
-
-        this.$emit('addTask', newTask) 
-        /* передали в emit newTask */
-        this.title = '' 
-        /*  обнуление значения поля после добавления задачи */
-        
+    
+    
+  },
+  computed: {
+    title: {
+      get() {
+        return this.editedItem.title
+      },
+      set(newValue) {
+        this.editedItem.title = newValue
       }
-        
-      }
-      this.$emit('setDefaultTask', undefined)
-      this.$emit('toggleVisibleForm', false)
-      
-    },
-    defaultAndExit() {
-      this.$emit('setDefaultTask', undefined)
-      this.$emit('toggleVisibleForm', false)
     }
   }
 }

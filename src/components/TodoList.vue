@@ -5,9 +5,10 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <VisibleForm v-if="show" :show="show" :editedItem="editedItem" @toggleVisibleForm="toggleVisibleForm" @addTask="addTask" @setDefaultTask="setDefaultTask"/>
-    
-    <button :title='tipAdd' @click="toggleVisibleForm(true)" class="button-add"><img src="@/assets/AddTask.png" @setDefaultTask="setDefaultTask"/>
+    <VisibleForm v-if="show" :show="show" :editedItem="editedItem" @onCancel="onCancel" @toggleVisibleForm="toggleVisibleForm" @onSubmit="onSubmit" />
+
+    <button :title="tipAdd" @click="editItem()" class="button-add">
+      <img src="@/assets/AddTask.png" />
     </button>
 
     <Loader v-if="loading" />
@@ -52,13 +53,17 @@ export default {
       editedItem: undefined,
       // test: 'undefined'
       tipAdd: 'Add Task',
-      
+      defaultTask: {
+        id: '',
+        title: '',
+        completed: ''
+      }
     }
   },
   props: ['taskList1'], //здесь taskList1 свойство, которое передаем из главного файла App.vue в строке v-bind:taskList1 = "taskList2", где taskList1 принимает значения из массива taskList2
   components: {
     TodoItem,
-    AddTask,
+
     Loader,
     VisibleForm
   },
@@ -67,33 +72,64 @@ export default {
       const deleteTask = this.taskList.findIndex((item) => item.id === index)
       this.taskList.splice(deleteTask, 1)
     },
-    addTask(add) {
-      const index = this.taskList.findIndex((item) => item.id === add)
-      if (index !== -1) {
-        this.taskList[index] = add
-      } else {
-        this.taskList.push(add)
-      }
-      
-    },
+    // addTask(add) {
+    //   const index = this.taskList.findIndex((item) => item.id === add.id)
+    //   // console.log(index)
+    //   if (index !== -1) {
+    //     this.taskList[index] = add
+    //   } else {
+    //     this.taskList.push(add)
+    //   }
+    // },
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
     },
+    onCancel() {
+      console.log('onCancel')
+      this.editedItem = undefined
+      this.show = false
+    },
+    editItem(task) {
+      if (task && task.id) {
+        this.editedItem = task
+      } else {
+        this.editedItem = { ...this.defaultTask }
+      }
+      this.show = true
+    },
     toggleVisibleForm(value) {
       this.show = value
     },
-    editItem(task) {
-      this.editedItem = task
-      this.show = true
-    },
-    setDefaultTask (value) {
-      this.editedItem = value
+    onSubmit() {
+      console.log('onSubmit')
+      console.log(this.editedItem)
+
+      //проверка на введенный текст в полеs
+      if (this.editedItem.id === '') {
+        const newTask = {
+          id: Date.now(),
+          title: this.editedItem.title,
+          completed: false
+        }/* создали новый элемент */
+        if (newTask.title !== '') {
+          
+          this.taskList.push(newTask)
+          
+        }
+      } else {
+        console.log('find')
+      }
+
+      /* передали в emit newTask */
+      // this.title = ''
+      /*  обнуление значения поля после добавления задачи */
+
+      this.toggleVisibleForm(false)
     }
-    
   },
   mounted() {
-    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10') //сделали лимит вывода на 3 (?_limit=3)
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=3') //сделали лимит вывода на 3 (?_limit=3)
       .then((response) => response.json())
       .then((json) => {
         setTimeout(() => {

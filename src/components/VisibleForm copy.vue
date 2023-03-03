@@ -1,9 +1,9 @@
 <template>
   <div class="modal-shadow">
     <div class="modal">
-      <div class="modal-close" @click="$emit('toggleVisibleForm', false)">&#10006;</div>
+      <div class="modal-close" @click="this.$emit('onCancel', false)">&#10006;</div>
       <!-- при клике на крестик значение show становится false и пропадает всплывающее окно. -->
-      <form @submit.prevent="onSubmit" id="saveTask" class="padding_form">
+      <form @submit.prevent="this.$emit('onSubmit')" id="saveTask" class="padding_form">
         <!-- повесили событие отпраки формы и добавили модификатор не перещагрудать страницу -->
         <input type="Text" v-model="title" />
         <!-- v-model служит для связывания данных с формой -->
@@ -17,7 +17,7 @@
       <div class="modal-footer">
         <button type="submit" form="saveTask" class="modal-footer__button">Save</button>
 
-        <button class="modal-footer__button" @click="$emit('toggleVisibleForm', false)">Cancel</button>
+        <button class="modal-footer__button" @click="this.$emit('onCancel', false)">Cancel</button>
       </div>
     </div>
   </div>
@@ -28,13 +28,9 @@ import IconEdit from '@/components/Icons/IconEdit.vue'
 
 export default {
   data() {
-    return {
-      title: ''
-    }
+    return {}
   },
-  mounted() {
-    console.log(this.editedItem)
-  },
+  mounted() {},
   props: {
     show: Boolean,
     editedItem: Object
@@ -42,43 +38,41 @@ export default {
   components: {
     IconEdit
   },
-  emits: ['toggleVisibleForm', 'addTask'], //ее нужно прописать, чтобы определялась, во vue 2 не надо.
+  emits: ['onCancel', 'addTask', 'toggleVisibleForm'], //ее нужно прописать, чтобы определялась, во vue 2 не надо.
   methods: {
     onSubmit() {
-      // console.log(this.title)
-      if (this.title.trim()) {
-        //проверка на введенный текст в поле
-        const newTask = {
-          id: Date.now(),
-          title: this.title,
-          completed: false
-        } /* создали новый элемент */
+      if (this.editedItem.title.trim()) {
+        //проверка на введенный текст в полеs
+        if (this.editedItem.id === '') {
+          const newTask = {
+            id: Date.now(),
+            title: this.editedItem.title,
+            completed: false
+          }
+          /* создали новый элемент */
+          this.$emit('addTask', newTask) /* передали в emit newTask */
+        } else {
+          console.log(this.editedItem.id)
+        }
 
-        this.$emit('addTask', newTask) /* передали в emit newTask */
-        this.title = '' /*  обнуление значения поля после добавления задачи */
-        
+        /* передали в emit newTask */
+        // this.title = ''
+        /*  обнуление значения поля после добавления задачи */
       }
       this.$emit('toggleVisibleForm', false)
     }
+  },
+  computed: {
+    title: {
+      get() {
+        return this.editedItem.title
+      },
+      set(newValue) {
+        this.editedItem.title = newValue
+      }
+    }
   }
 }
-
-
-if (this.title.trim()) {
-        //проверка на введенный текст в поле
-        const newTask = {
-          id: Date.now(),
-          title: this.title,
-          completed: false
-        } 
-        /* создали новый элемент */
-
-        this.$emit('addTask', newTask) 
-        /* передали в emit newTask */
-        this.title = '' 
-        /*  обнуление значения поля после добавления задачи */
-      }
-
 </script>
 
 <style>
@@ -139,4 +133,3 @@ if (this.title.trim()) {
   min-width: 150px;
 }
 </style>
-

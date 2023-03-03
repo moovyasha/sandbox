@@ -5,9 +5,10 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <VisibleForm v-if="show" :show="show" :editedItem="editedItem" @toggleVisibleForm="toggleVisibleForm" @addTask="addTask" @setDefaultTask="setDefaultTask"/>
-    
-    <button :title='tipAdd' @click="toggleVisibleForm(true)" class="button-add"><img src="@/assets/AddTask.png" @setDefaultTask="setDefaultTask"/>
+    <VisibleForm v-if="show" :show="show" :editedItem="editedItem" @onCancel="onCancel" @addTask="addTask" @toggleVisibleForm="toggleVisibleForm"/>
+
+    <button :title="tipAdd" @click="editItem()" class="button-add">
+      <img src="@/assets/AddTask.png" />
     </button>
 
     <Loader v-if="loading" />
@@ -52,7 +53,11 @@ export default {
       editedItem: undefined,
       // test: 'undefined'
       tipAdd: 'Add Task',
-      
+      defaultTask: {
+        id: '',
+        title: '',
+        completed: ''
+      }
     }
   },
   props: ['taskList1'], //здесь taskList1 свойство, которое передаем из главного файла App.vue в строке v-bind:taskList1 = "taskList2", где taskList1 принимает значения из массива taskList2
@@ -68,23 +73,32 @@ export default {
       this.taskList.splice(deleteTask, 1)
     },
     addTask(add) {
-      this.taskList.push(add)
+      const index = this.taskList.findIndex((item) => item.id === add.id)
+      // console.log(index)
+      if (index !== -1) {
+        this.taskList[index] = add
+      } else {
+        this.taskList.push(add)
+      }
     },
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
     },
-    toggleVisibleForm(value) {
+    onCancel(value) {
       this.show = value
     },
     editItem(task) {
-      this.editedItem = task
+      if (task && task.id) {
+        this.editedItem = task
+      } else {
+        this.editedItem = { ...this.defaultTask }
+      }
       this.show = true
     },
-    setDefaultTask (value) {
-      this.editedItem = value
+    toggleVisibleForm (value) {
+      this.show = value
     }
-    
   },
   mounted() {
     fetch('https://jsonplaceholder.typicode.com/todos?_limit=3') //сделали лимит вывода на 3 (?_limit=3)
