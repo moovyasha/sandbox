@@ -71,6 +71,7 @@ export default {
     removeTask(index) {
       const deleteTask = this.taskList.findIndex((item) => item.id === index)
       this.taskList.splice(deleteTask, 1)
+      console.log(index)
     },
     // addTask(add) {
     //   const index = this.taskList.findIndex((item) => item.id === add.id)
@@ -84,6 +85,7 @@ export default {
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
+      console.log(index)
     },
     onCancel() {
       console.log('onCancel')
@@ -118,7 +120,18 @@ export default {
           
         }
       } else {
-        console.log('find')
+        const indexEditedTask = this.taskList.findIndex((item) => item.id === this.editedItem.id)
+        console.log(indexEditedTask)
+        const newTask = {
+          id: this.editedItem.id,
+          title: this.editedItem.title,
+          completed: this.editedItem.completed
+        }
+        this.taskList.splice(indexEditedTask, 1, newTask)
+        console.log('-----------')
+        console.log(this.taskList)
+        
+        
       }
 
       /* передали в emit newTask */
@@ -129,7 +142,7 @@ export default {
     }
   },
   mounted() {
-    fetch('https://jsonplaceholder.typicode.com/todos?_limit=3') //сделали лимит вывода на 3 (?_limit=3)
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=6') //сделали лимит вывода на 3 (?_limit=3)
       .then((response) => response.json())
       .then((json) => {
         setTimeout(() => {
