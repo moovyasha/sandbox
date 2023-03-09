@@ -9,11 +9,8 @@
         <!-- v-model служит для связывания данных с формой -->
         <!-- <input v-model="message" placeholder="отредактируй меня" />
 <p>Сообщение: {{ message }}</p>   https://ru.vuejs.org/v2/guide/forms.html -->
-        <!-- <button type="submit"><img src="@/assets/AddTask.png"></button> -->
       </form>
-      <!-- @submit.prevent="onSubmit" -->
       <div class="modal-content">Current Task</div>
-
       <div class="modal-footer">
         <button type="submit" form="saveTask" class="modal-footer__button">Save</button>
 
@@ -39,10 +36,7 @@ export default {
     IconEdit
   },
   emits: ['onCancel', 'addTask', 'toggleVisibleForm', 'onSubmit'], //ее нужно прописать, чтобы определялась, во vue 2 не надо.
-  methods: {
-    
-    
-  },
+  methods: {},
   computed: {
     title: {
       get() {
@@ -52,7 +46,8 @@ export default {
         this.editedItem.title = newValue
       }
     }
-  }
+  } //По умолчанию вычисляемые свойства работают только на чтение (геттер), но при необходимости можно сделать обновление данных (сеттер): с формой связан title через v-model, сам title - объект, в котором возвращается значение из геттера, а чтобы обновлялись данные берем сеттер, где editedItem.title присваивается значение от newValue, а это то, что вводим (<input>) 
+  // input <-- v-model <-- title <-- editedItem.tilte <-- newValue
 }
 </script>
 

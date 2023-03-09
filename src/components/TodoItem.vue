@@ -8,10 +8,9 @@
     <!-- при клике на текст меняется значение на true в объекте taskList, c checkbox - у него есть состояние checked -->
     <div>
       <button :title="tipEdit" @click="$emit('editItem', task)"><IconEdit /></button>
-
       <button :title="tipDelete" @click="$emit('removeTask', task.id)"><IconDelete /></button>
     </div>
-    <!-- emit позволяет работать с локальными переменными, которые были объявлены здесь, чтобы не влиять на основные данные, которые у нас в data в файле app.vue. его мы передаем в файл TodoList.vue -->
+    <!-- emit позволяет работать с локальными переменными, которые были объявлены здесь, чтобы не влиять на основные данные, которые у нас в data в файле TodoList.vue. его мы передаем в файл TodoList.vue -->
     <!-- чтобы передать этот emit на уровень выше -->
   </li>
 </template>
@@ -25,14 +24,10 @@ export default {
       tipEdit: 'Edit Task',
       tipDelete: 'Delete Task'
     }
-    
   },
 
   props: {
-    task: {
-      type: Object,
-      required: true /* обящательно наличие данного элемента */
-    },
+    task: {},
 
     show: Boolean,
     indexTask: Number

@@ -5,7 +5,7 @@
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <VisibleForm v-if="show" :show="show" :editedItem="editedItem" @onCancel="onCancel" @addTask="addTask" @toggleVisibleForm="toggleVisibleForm"/>
+    <VisibleForm v-if="show" :show="show" :editedItem="editedItem" @onCancel="onCancel" @toggleVisibleForm="toggleVisibleForm" @onSubmit="onSubmit" />
 
     <button :title="tipAdd" @click="editItem()" class="button-add">
       <img src="@/assets/AddTask.png" />
@@ -40,7 +40,6 @@
 <script>
 import VisibleForm from './VisibleForm.vue'
 import TodoItem from '@/components/TodoItem.vue'
-import AddTask from '@/components/AddTask.vue'
 import Loader from '@/components/Loader.vue'
 
 export default {
@@ -51,7 +50,6 @@ export default {
       filter: 'all',
       show: false,
       editedItem: undefined,
-      // test: 'undefined'
       tipAdd: 'Add Task',
       defaultTask: {
         id: '',
@@ -60,48 +58,59 @@ export default {
       }
     }
   },
-  props: ['taskList1'], //здесь taskList1 свойство, которое передаем из главного файла App.vue в строке v-bind:taskList1 = "taskList2", где taskList1 принимает значения из массива taskList2
+
   components: {
     TodoItem,
-    AddTask,
     Loader,
     VisibleForm
   },
   methods: {
     removeTask(index) {
-      const deleteTask = this.taskList.findIndex((item) => item.id === index)
-      this.taskList.splice(deleteTask, 1)
-    },
-    addTask(add) {
-      const index = this.taskList.findIndex((item) => item.id === add.id)
-      // console.log(index)
-      if (index !== -1) {
-        this.taskList[index] = add
-      } else {
-        this.taskList.push(add)
-      }
+      const deleteTask = this.taskList.findIndex((item) => item.id === index) //поиск индекса элемента по его id.
+      this.taskList.splice(deleteTask, 1) //splice служит для удаления элемнета из массива или замены элементов, array.splice(start_index, delete_count, value1, value2, ...) start_index - с какого индекса удалять, delete_count - количество для удаления, если value не указывать, то будет удаление элементов и все, в противном случае будут вставлены value.
     },
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
+      console.log(index)
     },
-    onCancel(value) {
-      this.show = value
+    onCancel() {
+      console.log('onCancel')
+      this.editedItem = undefined
+      this.show = false
     },
     editItem(task) {
       if (task && task.id) {
-        this.editedItem = task
+        //логическое И. если есть элемент и его id
+        this.editedItem = { ...task } //{ ...task } - делаем копию элемента task, но ссылается на другую ячейку памяти из-за этого я изменяю task ненапрямую, аналог Object.assign(dest(куда), [src1, src2, src3...(откуда)]) Это необходимо для редактирования записи в методе onSubmit, там меняем editetItem
       } else {
         this.editedItem = { ...this.defaultTask }
       }
       this.show = true
     },
-    toggleVisibleForm (value) {
+    toggleVisibleForm(value) {
       this.show = value
+    },
+    onSubmit() {
+      console.log('onSubmit', this.editedItem)
+
+      //проверка на введенный текст в полеs
+      if (this.editedItem.id === '' || this.editedItem.title.trim()) {
+        const newTask = {
+          id: Date.now(),
+          title: this.editedItem.title,
+          completed: false
+        } /* создали новый элемент */
+          this.taskList.push(newTask)
+      } else {
+        const indexEditedTask = this.taskList.findIndex((item) => item.id === this.editedItem.id)
+        this.taskList.splice(indexEditedTask, 1, this.editedItem)
+      } //splice кроме удаления и замены еще снова отрисавывает массив как цикл for
+      this.toggleVisibleForm(false)
     }
   },
   mounted() {
-    fetch('https://jsonplaceholder.typicode.com/todos?_limit=3') //сделали лимит вывода на 3 (?_limit=3)
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=6') //сделали лимит вывода на 3 (?_limit=3)
       .then((response) => response.json())
       .then((json) => {
         setTimeout(() => {
