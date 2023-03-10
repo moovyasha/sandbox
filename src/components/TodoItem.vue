@@ -2,16 +2,13 @@
   <li>
     <span v-bind:class="{ done: task.completed }" @click="$emit('completeTask', task.id)">
       <input type="checkbox" :checked="task.completed" />
-      {{ indexTask + 1 }} {{ firstUpperCase }} {{ task.completed }}
+      {{ `${ indexTask + 1 } <span class="first-upper">${ task.title }</span> ${ task.completed }` }}
     </span>
-    <!-- к span привязали класс с параметром done:(придумали, он в <script>) и значением task.completed, которое равно false из массива taskList-->
-    <!-- при клике на текст меняется значение на true в объекте taskList, c checkbox - у него есть состояние checked -->
+
     <div>
       <button :title="tipEdit" @click="$emit('editItem', task)"><IconEdit /></button>
       <button :title="tipDelete" @click="$emit('removeTask', task.id)"><IconDelete /></button>
     </div>
-    <!-- emit позволяет работать с локальными переменными, которые были объявлены здесь, чтобы не влиять на основные данные, которые у нас в data в файле TodoList.vue. его мы передаем в файл TodoList.vue -->
-    <!-- чтобы передать этот emit на уровень выше -->
   </li>
 </template>
 
@@ -32,12 +29,6 @@ export default {
     show: Boolean,
     indexTask: Number
   },
-  computed: {
-    //computed - вычисляемое свойство
-    firstUpperCase() {
-      return this.task.title[0].toUpperCase() + this.task.title.slice(1)
-    }
-  },
   components: {
     IconDelete,
     IconEdit
@@ -48,7 +39,7 @@ export default {
 <style scoped>
 li {
   border: 4px solid rgb(121, 55, 121);
-  display: flex;
+  display: block;
   justify-content: space-between;
   padding: 12px 43px;
   margin-bottom: 5px;
@@ -66,5 +57,8 @@ button.pop-up::before {
 }
 button.pop-up:focus::before {
   display: block;
+}
+span::first-letter {
+  text-transform: uppercase;
 }
 </style>

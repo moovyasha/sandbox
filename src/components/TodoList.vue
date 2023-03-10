@@ -12,28 +12,18 @@
     </button>
 
     <Loader v-if="loading" />
-    <div v-else></div>
-    <ul>
-      <!-- если loading true, то показывать значок загрузки -->
+
+    <ul if-v="taskList && taskList.length">
       <TodoItem
         v-for="(task, i) of taskList"
         :task="task"
         @removeTask="removeTask"
         @completeTask="completed"
         :indexTask="i"
-        :show="show"
         @editItem="editItem"
+        @onEditItem="onEditItem"
       />
-
-      <!-- v-for позволяет  отрисовать массив + пробег по массиву (как цикл for). task - ссылка на элемент массива, taskList - массив. -->
-      <!-- v-on служит для обработки событий v-on:click, change и др, можно назначать свои, но тогда необходимо указать их в methods. -->
-      <!-- также  v-on позволяет получать параметры из дочерних файлов. Здесь v-on:completeTask="completed" получили из TodoItem.vue, от туда его отправили через $emit -->
-      <!-- с помощью v-bind я передаю в файл TodoItem массив в переменной task, для получения массива в TodoItem нужно прописать props: task: {type: Object, required: true} -->
-      <!-- v-else-if="taskList.length" иначе если длина не равна 0, то отображает список и не показывает значок загрузки -->
-      <!-- <p v-else>No task!</p> иначе при отсутствии записей выводить запись No task! -->
     </ul>
-    <div v-if="taskList.length"></div>
-    <p v-else>No Task!</p>
   </div>
 </template>
 
@@ -66,23 +56,24 @@ export default {
   },
   methods: {
     removeTask(index) {
-      const deleteTask = this.taskList.findIndex((item) => item.id === index) //поиск индекса элемента по его id.
-      this.taskList.splice(deleteTask, 1) //splice служит для удаления элемнета из массива или замены элементов, array.splice(start_index, delete_count, value1, value2, ...) start_index - с какого индекса удалять, delete_count - количество для удаления, если value не указывать, то будет удаление элементов и все, в противном случае будут вставлены value.
+      const deleteTask = this.taskList.findIndex((item) => item.id === index)
+      this.taskList.splice(deleteTask, 1)
     },
     completed(index) {
       const complete = this.taskList.findIndex((item) => item.id === index)
       this.taskList[complete].completed = !this.taskList[complete].completed
-      
+    },
+    onEditItem({ key, value }) {
+      this.editedItem[key] = value
+      console.log(key)
     },
     onCancel() {
-      // console.log('onCancel')
       this.editedItem = undefined
       this.show = false
     },
     editItem(task) {
       if (task && task.id) {
-        //логическое И. если есть элемент и его id
-        this.editedItem = { ...task } //{ ...task } - делаем копию элемента task, но ссылается на другую ячейку памяти из-за этого я изменяю task ненапрямую, аналог Object.assign(dest(куда), [src1, src2, src3...(откуда)]) Это необходимо для редактирования записи в методе onSubmit, там меняем editetItem
+        this.editedItem = { ...task }
       } else {
         this.editedItem = { ...this.defaultTask }
       }
@@ -109,7 +100,7 @@ export default {
           const indexEditedTask = this.taskList.findIndex((item) => item.id === this.editedItem.id)
           this.taskList.splice(indexEditedTask, 1, this.editedItem)
         }
-      } //splice кроме удаления и замены еще снова отрисавывает массив как цикл for
+      }
       this.toggleVisibleForm(false)
     }
   },
@@ -119,7 +110,7 @@ export default {
       .then((json) => {
         setTimeout(() => {
           this.taskList = json
-          this.loading = false //когда прогрузятся данные с сервака, то переменной присвоится false и значок загрузки пропадет.
+          this.loading = false
         }, 1000)
       })
   },
@@ -135,7 +126,7 @@ export default {
         return this.taskList.filter((t) => !t.completed)
       }
     }
-  } // computed - вычисляемое свойство, создали функцию на фильтрование тасков, обязательно создаем переменную filter: 'all' (как начальное значение). в теге <selector> сделали привязку к переменной filter, для мониторинга ее значения. чтобы перерисовывал список тасков, то filterTask нужно подставить в TodoItem v-for="(task, i) of filterTask" вместо начального taskList и также в div v-if="filterTask.length", чтбы мониторил длину массива.
+  }
 }
 </script>
 

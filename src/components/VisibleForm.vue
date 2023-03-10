@@ -2,13 +2,9 @@
   <div class="modal-shadow">
     <div class="modal">
       <div class="modal-close" @click="this.$emit('onCancel')">&#10006;</div>
-      <!-- при клике на крестик значение show становится false и пропадает всплывающее окно. -->
+
       <form @submit.prevent="this.$emit('onSubmit')" id="saveTask" class="padding_form">
-        <!-- повесили событие отпраки формы и добавили модификатор не перещагрудать страницу -->
         <input type="Text" v-model="title" />
-        <!-- v-model служит для связывания данных с формой -->
-        <!-- <input v-model="message" placeholder="отредактируй меня" />
-<p>Сообщение: {{ message }}</p>   https://ru.vuejs.org/v2/guide/forms.html -->
       </form>
       <div class="modal-content">Current Task</div>
       <div class="modal-footer">
@@ -22,12 +18,15 @@
 
 <script>
 import IconEdit from '@/components/Icons/IconEdit.vue'
+import { emit } from 'process'
 
 export default {
   data() {
     return {}
   },
-  mounted() {},
+  mounted() {
+    
+  },
   props: {
     show: Boolean,
     editedItem: Object
@@ -35,7 +34,7 @@ export default {
   components: {
     IconEdit
   },
-  emits: ['onCancel', 'addTask', 'toggleVisibleForm', 'onSubmit'], //ее нужно прописать, чтобы определялась, во vue 2 не надо.
+  emits: ['onCancel', 'addTask', 'toggleVisibleForm', 'onSubmit', 'onEditItem'],
   methods: {},
   computed: {
     title: {
@@ -43,11 +42,12 @@ export default {
         return this.editedItem.title
       },
       set(newValue) {
-        this.editedItem.title = newValue
+        // this.editedItem.title = newValue
+        this.$emit('onEditItem', {key: 'title', value: newValue})
+        
       }
     }
-  } //По умолчанию вычисляемые свойства работают только на чтение (геттер), но при необходимости можно сделать обновление данных (сеттер): с формой связан title через v-model, сам title - объект, в котором возвращается значение из геттера, а чтобы обновлялись данные берем сеттер, где editedItem.title присваивается значение от newValue, а это то, что вводим (<input>) 
-  // input <-- v-model <-- title <-- editedItem.tilte <-- newValue
+  }
 }
 </script>
 

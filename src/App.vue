@@ -1,18 +1,18 @@
 <template>
   <div id="app">
     <h1>Todo APP</h1>
-    <Navig />
+    <Menu />
     <div style="border-top: 6px solid purple"></div>
     <router-view />
   </div>
 </template>
 
 <script>
-import Navig from '@/views/Menu.vue'
+import Menu from '@/views/Menu.vue'
 
 export default {
   components: {
-    Navig
+    Menu
   }
 }
 </script>
