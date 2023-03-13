@@ -10,7 +10,7 @@ const routes = [
   },
   {
     path: '/todos', //регистрируем еще 1 путь
-    component: () => import('./views/Todos.vue') //это lazy loading
+    component: () => import('./components/TodoList.vue') //это lazy loading
   },
   
 ]

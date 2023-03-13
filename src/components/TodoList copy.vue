@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>{{ $store.state.taskList23}}</div>
+    <div>{{ $store.state.count}}</div>
     <h2>Todo</h2>
     <!-- <select v-model="filter">
       <option value="all">All</option>
@@ -13,11 +13,11 @@
       <img src="@/assets/AddTask.png" />
     </button>
 
-    <!-- <Loader v-if="loading" /> -->
+    <Loader v-if="loading" />
 
-    <ul v-if="allTasks && allTasks.length">
+    <ul if-v="taskList && taskList.length">
       <TodoItem
-        v-for="(task, i) of allTasks"
+        v-for="(task, i) of taskList"
         :task="task"
         @removeTask="removeTask"
         @completeTask="completed"
@@ -33,12 +33,12 @@
 import VisibleForm from './VisibleForm.vue'
 import TodoItem from '@/components/TodoItem.vue'
 import Loader from '@/components/Loader.vue'
-import { mapGetters } from 'vuex'
+
 
 export default {
   data() {
     return {
-      // taskList: [],
+      taskList: [],
       loading: true, //для отображения Loader'a
       filter: 'all',
       show: false,
@@ -59,12 +59,12 @@ export default {
   },
   methods: {
     removeTask(index) {
-      const deleteTask = this.allTasks.findIndex((item) => item.id === index)
-      this.allTasks.splice(deleteTask, 1)
+      const deleteTask = this.taskList.findIndex((item) => item.id === index)
+      this.taskList.splice(deleteTask, 1)
     },
     completed(index) {
-      const complete = this.allTasks.findIndex((item) => item.id === index)
-      this.allTasks[complete].completed = !this.allTasks[complete].completed
+      const complete = this.taskList.findIndex((item) => item.id === index)
+      this.taskList[complete].completed = !this.taskList[complete].completed
     },
     onEditItem({ key, value }) {
       this.editedItem[key] = value
@@ -96,19 +96,26 @@ export default {
             title: this.editedItem.title,
             completed: false
           }
-          this.allTasks.push(newTask)
+          this.taskList.push(newTask)
         } /* создали новый элемент */
       } else {
         if (this.editedItem.title.trim()) {
-          const indexEditedTask = this.allTasks.findIndex((item) => item.id === this.editedItem.id)
-          this.allTasks.splice(indexEditedTask, 1, this.editedItem)
+          const indexEditedTask = this.taskList.findIndex((item) => item.id === this.editedItem.id)
+          this.taskList.splice(indexEditedTask, 1, this.editedItem)
         }
       }
       this.toggleVisibleForm(false)
     }
   },
-  async mounted() {
-    this.$store.dispatch('fetchTasks')
+  mounted() {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=2') //сделали лимит вывода на 3 (?_limit=3)
+      .then((response) => response.json())
+      .then((json) => {
+        setTimeout(() => {
+          this.taskList = json
+          this.loading = false
+        }, 1000)
+      })
   },
   computed: {
     filterTask() {
@@ -121,13 +128,8 @@ export default {
       if (this.filter === 'not-completed') {
         return this.taskList.filter((t) => !t.completed)
       }
-    },
-    
-    // allTasks() {
-    //   return this.$store.getters.allTasks;
-    // }
-  },
-  computed: mapGetters(['allTasks']),
+    }
+  }
 }
 </script>
 

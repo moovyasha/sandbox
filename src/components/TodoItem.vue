@@ -2,7 +2,7 @@
   <li>
     <span v-bind:class="{ done: task.completed }" @click="$emit('completeTask', task.id)">
       <input type="checkbox" :checked="task.completed" />
-      {{ `${ indexTask + 1 } <span class="first-upper">${ task.title }</span> ${ task.completed }` }}
+      {{ `${ indexTask + 1 } ${'<span class="first-upper">'}${ task.title }</span> ${ task.completed }` }}
     </span>
 
     <div>

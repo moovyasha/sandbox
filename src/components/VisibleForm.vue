@@ -18,7 +18,7 @@
 
 <script>
 import IconEdit from '@/components/Icons/IconEdit.vue'
-import { emit } from 'process'
+
 
 export default {
   data() {
@@ -42,7 +42,7 @@ export default {
         return this.editedItem.title
       },
       set(newValue) {
-        // this.editedItem.title = newValue
+        
         this.$emit('onEditItem', {key: 'title', value: newValue})
         
       }
