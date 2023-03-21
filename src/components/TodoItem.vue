@@ -1,9 +1,11 @@
 <template>
   <li>
-    <span v-bind:class="{ done: task.completed }" @click="$emit('completeTask', task.id)">
+    <div v-bind:class="{ done: task.completed }" @click="$emit('completeTask', task.id)">
       <input type="checkbox" :checked="task.completed" />
-      {{ `${ indexTask + 1 } ${'<span class="first-upper">'}${ task.title }</span> ${ task.completed }` }}
-    </span>
+      <span>{{ indexTask + 1 }}</span>
+      <span class="first-upper">{{ task.title }}</span>
+      <span>{{ task.completed }}</span>
+    </div>
 
     <div>
       <button :title="tipEdit" @click="$emit('editItem', task)"><IconEdit /></button>
@@ -39,7 +41,7 @@ export default {
 <style scoped>
 li {
   border: 4px solid rgb(121, 55, 121);
-  display: block;
+  /* display: block; */
   justify-content: space-between;
   padding: 12px 43px;
   margin-bottom: 5px;
@@ -58,7 +60,8 @@ button.pop-up::before {
 button.pop-up:focus::before {
   display: block;
 }
-span::first-letter {
+span::first-upper {
   text-transform: uppercase;
+  display: inline-block;
 }
 </style>

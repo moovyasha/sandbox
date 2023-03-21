@@ -1,13 +1,21 @@
 <template>
   <div>
-    <div>{{ $store.state.taskList23}}</div>
+    <div>{{ getTasks }}</div>
     <h2>Todo</h2>
     <!-- <select v-model="filter">
       <option value="all">All</option>
       <option value="completed">Completed</option>
       <option value="not-completed">Not completed</option>
     </select> -->
-    <VisibleForm v-if="show" :show="show" :editedItem="editedItem" @onCancel="onCancel" @toggleVisibleForm="toggleVisibleForm" @onSubmit="onSubmit" @onEditItem="onEditItem"/>
+    <VisibleForm
+      v-if="show"
+      :show="show"
+      :editedItem="editedItem"
+      @onCancel="onCancel"
+      @toggleVisibleForm="toggleVisibleForm"
+      @onSubmit="onSubmit"
+      @onEditItem="onEditItem"
+    />
 
     <button :title="tipAdd" @click="editItem()" class="button-add">
       <img src="@/assets/AddTask.png" />
@@ -16,15 +24,7 @@
     <!-- <Loader v-if="loading" /> -->
 
     <ul v-if="allTasks && allTasks.length">
-      <TodoItem
-        v-for="(task, i) of allTasks"
-        :task="task"
-        @removeTask="removeTask"
-        @completeTask="completed"
-        :indexTask="i"
-        @editItem="editItem"
-        
-      />
+      <TodoItem v-for="(task, i) of allTasks" :task="task" @removeTask="removeTask" @completeTask="completed" :indexTask="i" @editItem="editItem" />
     </ul>
   </div>
 </template>
@@ -33,7 +33,7 @@
 import VisibleForm from './VisibleForm.vue'
 import TodoItem from '@/components/TodoItem.vue'
 import Loader from '@/components/Loader.vue'
-import { mapGetters } from 'vuex'
+import getTasks from '@/api/tasksFromSite.js'
 
 export default {
   data() {
@@ -48,7 +48,8 @@ export default {
         id: '',
         title: '',
         completed: ''
-      }
+      },
+      getTasks: null,
     }
   },
 
@@ -68,7 +69,6 @@ export default {
     },
     onEditItem({ key, value }) {
       this.editedItem[key] = value
-      console.log(key)
     },
     onCancel() {
       this.editedItem = undefined
@@ -108,7 +108,7 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('fetchTasks')
+    this.$store.dispatch('tasks/fetchTasks')
   },
   computed: {
     filterTask() {
@@ -122,12 +122,11 @@ export default {
         return this.taskList.filter((t) => !t.completed)
       }
     },
-    
-    // allTasks() {
-    //   return this.$store.getters.allTasks;
-    // }
-  },
-  computed: mapGetters(['allTasks']),
+
+    allTasks() {
+      return this.$store.state.tasks.taskList
+    }
+  }
 }
 </script>
 
