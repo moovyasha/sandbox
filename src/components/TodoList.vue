@@ -49,7 +49,7 @@ export default {
         title: '',
         completed: ''
       },
-      getTasks: null,
+      getTasks: null
     }
   },
 
@@ -60,12 +60,10 @@ export default {
   },
   methods: {
     removeTask(index) {
-      const deleteTask = this.allTasks.findIndex((item) => item.id === index)
-      this.allTasks.splice(deleteTask, 1)
+      this.$store.commit('tasks/removeTask', index)
     },
     completed(index) {
-      const complete = this.allTasks.findIndex((item) => item.id === index)
-      this.allTasks[complete].completed = !this.allTasks[complete].completed
+      this.$store.commit('tasks/statusTask', index)
     },
     onEditItem({ key, value }) {
       this.editedItem[key] = value
@@ -96,12 +94,11 @@ export default {
             title: this.editedItem.title,
             completed: false
           }
-          this.allTasks.push(newTask)
+          this.$store.commit('tasks/addTask', newTask)
         } /* создали новый элемент */
       } else {
         if (this.editedItem.title.trim()) {
-          const indexEditedTask = this.allTasks.findIndex((item) => item.id === this.editedItem.id)
-          this.allTasks.splice(indexEditedTask, 1, this.editedItem)
+          this.$store.commit('tasks/editTask', this.editedItem)
         }
       }
       this.toggleVisibleForm(false)
@@ -111,17 +108,17 @@ export default {
     this.$store.dispatch('tasks/fetchTasks')
   },
   computed: {
-    filterTask() {
-      if (this.filter === 'all') {
-        return this.taskList
-      }
-      if (this.filter === 'completed') {
-        return this.taskList.filter((t) => t.completed)
-      }
-      if (this.filter === 'not-completed') {
-        return this.taskList.filter((t) => !t.completed)
-      }
-    },
+    // filterTask() {
+    //   if (this.filter === 'all') {
+    //     return this.taskList
+    //   }
+    //   if (this.filter === 'completed') {
+    //     return this.taskList.filter((t) => t.completed)
+    //   }
+    //   if (this.filter === 'not-completed') {
+    //     return this.taskList.filter((t) => !t.completed)
+    //   }
+    // },
 
     allTasks() {
       return this.$store.state.tasks.taskList

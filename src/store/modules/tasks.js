@@ -3,10 +3,10 @@ import taskApi from '@/api/tasksFromSite.js'
 export default {
   namespaced: true,
   actions: {
-    async fetchTasks(ctx) {
+    async fetchTasks({commit}) {
       try {
         const { data } = await taskApi.getTasks()
-        ctx.commit('updateTasks', data)
+        commit('updateTasks', data)
         // console.log(data)
       } catch (e) {
         console.log(e)
@@ -19,6 +19,23 @@ export default {
   mutations: {
     updateTasks(state, data) {
       state.taskList = data
+    },
+    addTask (state, newTask) {
+      state.taskList.push(newTask)
+    },
+    editTask (state, editedItem) {
+      const indexEditedTask = state.taskList.findIndex((item) => item.id === editedItem.id)
+      console.log(indexEditedTask)
+      state.taskList.splice(indexEditedTask, 1, editedItem)
+    },
+    removeTask (state, index) {
+      const deleteTask = state.taskList.findIndex((item) => item.id === index)
+      console.log(deleteTask)
+      state.taskList.splice(deleteTask, 1)
+    },
+    statusTask (state, index) {
+      const complete = state.taskList.findIndex((item) => item.id === index)
+      state.taskList[complete].completed = !state.taskList[complete].completed
     }
   },
   state: {
